@@ -14,6 +14,9 @@ def run():
     result = asyncio.run(main())
     smallResult = result[0]
     return smallResult
+
+def clearScreen():
+    print("\n" * 100)
         
         
         
