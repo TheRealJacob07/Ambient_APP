@@ -1,6 +1,3 @@
-import main
-import time
-import web
-web.start()
-
-    
+import API
+import window
+window.app()
