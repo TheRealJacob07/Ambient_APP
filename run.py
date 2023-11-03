@@ -1,9 +1,6 @@
 import main
 import time
+import web
+web.start()
 
-while True:
-    j = main.run()
-    print("The Current Temp: " + str(j["tempf"]) + "F")
-    print("The Current Humidity: " + str(j["humidity"]) + "%")
-    print("\n" * 2)
-    time.sleep(4)
+    
