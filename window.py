@@ -1,4 +1,4 @@
-import API
+import api
 import PySimpleGUI as sg
 
 def app():
@@ -7,8 +7,8 @@ def app():
     layout = [  [sg.Text('Ambient API APP')],
                 [sg.Text('API Key: '), sg.InputText()],
                 [sg.Button('Ok'), sg.Button('Cancel')] ]
-    layout2 = [ [sg.Text('The Current Temp is: ' + str(API.run()['tempf']))],
-                [sg.Text('The Current Humidity is: ' + str(API.run()['humidity']))]  ]
+    layout2 = [ [sg.Text('The Current Temp is: ' + str(api.run()['tempf']))],
+                [sg.Text('The Current Humidity is: ' + str(api.run()['humidity']))]  ]
 
     # Create the Window
     window = sg.Window('Window Title', layout)

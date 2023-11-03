@@ -12,7 +12,7 @@ async def main() -> None:
     api = API(apikey, devkey)
     data = await api.get_device_details(mac)
     return data
-def window():
+def run():
     result = asyncio.run(main())
     smallResult = result[0]
     return smallResult
