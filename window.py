@@ -1,27 +1,43 @@
 import api
 import PySimpleGUI as sg
+import time
+from datetime import datetime
+import os
 
-def app():
-    sg.theme('DarkAmber')   # Add a touch of color
-    # All the stuff inside your window.
+def api_app():
     layout = [  [sg.Text('Ambient API APP')],
                 [sg.Text('API Key: '), sg.InputText()],
                 [sg.Button('Ok'), sg.Button('Cancel')] ]
-    layout2 = [ [sg.Text('The Current Temp is: ' + str(api.run()['tempf']))],
-                [sg.Text('The Current Humidity is: ' + str(api.run()['humidity']))]  ]
-
-    # Create the Window
-    window = sg.Window('Window Title', layout)
-    # Event Loop to process "events" and get the "values" of the inputs
+    
+    apiwindow = sg.Window("API", layout)
+    
     while True:
-        event, values = window.read()
-        if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+        event, value = apiwindow.read()
+        if event == sg.WINDOW_CLOSED or event == 'Cancel':
             break
         if event == 'Ok':
-            apiKEY = values[0]
-            window.close()
-            window2 = sg.Window('test', layout2)
-            event2, values2 = window2.read()
+            key = value[0]
+            os.environ['API'] = key
+            break
+    apiwindow.close()
+            
+def app():
+    sg.theme('DarkAmber')
+    layout2 = [ [sg.Text('The Current Temp is: ' + str(api.run()['tempf']))],
+                [sg.Text('The Current Humidity is: ' + str(api.run()['humidity']))],
+                [sg.Text('Last updated: ' + str(datetime.now().timestamp() * 1000 - api.run()['dateutc']))],
+                [sg.Button('Cancel'), sg.Button('Refresh')]]
+
+    
+    window = sg.Window('Ambient Api', layout2)
+    
+    while True:
+        event = window.read()
+        if event == sg.WIN_CLOSED or event == 'Cancel': 
+            break
+        if event == 'Refresh':
+            window.refresh()
+            
         
 
     window.close()
