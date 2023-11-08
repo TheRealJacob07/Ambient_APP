@@ -1,10 +1,37 @@
 import api
+import api
 import PySimpleGUI as sg
+import time
+from datetime import datetime
+import os
 import time
 from datetime import datetime
 import os
 
 def app():
+    sg.theme('DarkAmber')   
+    
+    
+    layout = [  [sg.Text('The Current Temp is: ' + str(api.run()['tempf']))],
+                [sg.Text('The Current Humidity is: ' + str(api.run()['humidity']))],
+                [sg.Button('Refresh'), sg.Button('Cancel')]]
+
+    
+    window = sg.Window('Ambient Weather API App', layout)
+    
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == 'Cancel': 
+            break
+        if event == 'Refresh':
+            window.refresh()
+            print('Refreshing...')
+            
+        
+
+    window.close()
+    
+def api_app():
     sg.theme('DarkAmber')   
     
     
@@ -35,6 +62,7 @@ def api_app():
     while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED or event == 'Cancel':
+        if event == sg.WIN_CLOSED or event == 'Cancel':
             break
         if event == 'Ok':
             apikey = values[0]
@@ -61,6 +89,10 @@ def mac_app():
             print("Writing data to file")
             break
     window.close()
+
+
+    
+    
 
 
     
