@@ -1,30 +1,70 @@
-import API
+import api
 import PySimpleGUI as sg
+import time
+from datetime import datetime
+import os
 
 def app():
-    sg.theme('DarkAmber')   # Add a touch of color
-    # All the stuff inside your window.
-    layout = [  [sg.Text('Ambient API APP')],
-                [sg.Text('API Key: '), sg.InputText()],
-                [sg.Button('Ok'), sg.Button('Cancel')] ]
-    layout2 = [ [sg.Text('The Current Temp is: ' + str(API.run()['tempf']))],
-                [sg.Text('The Current Humidity is: ' + str(API.run()['humidity']))]  ]
+    sg.theme('DarkAmber')   
+    
+    
+    layout = [  [sg.Text('The Current Temp is: ' + str(api.run()['tempf']))],
+                [sg.Text('The Current Humidity is: ' + str(api.run()['humidity']))],
+                [sg.Button('Refresh'), sg.Button('Cancel')]]
 
-    # Create the Window
-    window = sg.Window('Window Title', layout)
-    # Event Loop to process "events" and get the "values" of the inputs
+    
+    window = sg.Window('Ambient Weather API App', layout)
+    
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+        if event == sg.WIN_CLOSED or event == 'Cancel': 
             break
-        if event == 'Ok':
-            apiKEY = values[0]
-            window.close()
-            window2 = sg.Window('test', layout2)
-            event2, values2 = window2.read()
+        if event == 'Refresh':
+            window.refresh()
+            print('Refreshing...')
+            
         
 
     window.close()
+    
+def api_app():
+    layout = [  [sg.Text('Ambient API APP')],
+                [sg.Text('API Key: '), sg.InputText()],
+                [sg.Button('Ok'), sg.Button('Cancel')] ]
+    window = sg.Window('Window Title', layout)
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == 'Cancel':
+            break
+        if event == 'Ok':
+            apikey = values[0]
+            f = open('api.txt', 'w+t')
+            f.write(apikey)
+            f.close()
+            print("Writing data to file")
+            break
+    window.close()
+    
+def mac_app():
+    layout = [[sg.Text('MAC ADDRESS')],
+              [sg.Text('Mac Adress: '), sg.Input()],
+              [sg.Button('OK'), sg.Button('Cancel')]]
+    window = sg.Window('MAC', layout)
+    while True:
+        event, value = window.read()
+        if event == sg.WINDOW_CLOSED or event == "Cancel":
+            break
+        if event == 'OK':
+            macaddr = value[0]
+            f = open('mac.txt', 'w+t')
+            f.write(macaddr)
+            print("Writing data to file")
+            break
+    window.close()
+
+
+    
+    
             
             
 
