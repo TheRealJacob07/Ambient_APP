@@ -1,24 +1,28 @@
-import asyncio
-from datetime import date
-from aiohttp import ClientSession
-from aioambient import API
-import window
-import time
+import urllib
+import json
 import os
-import PySimpleGUI as sg
-devkey = "945ff3ad565840198a0bb530c1b4f3d64eaf83beb7844e8eab0cd1bf5e350782"
-async def main() -> None:
-    api = API(str(os.environ['API']), devkey)
-    data = await api.get_device_details(str(os.environ['MAC']))
-    return data
+import ast
+KEY = "kljubTcPNjsXE2jJ2DGuM"
+PKEY = "SSEr2T9ZbIUGgQENcK96G7wlNElwKFztaP0Xw4nB"
+def api():
+    import urllib.request
+    import json.decoder
+    KEY = "kljubTcPNjsXE2jJ2DGuM"
+    PKEY = "SSEr2T9ZbIUGgQENcK96G7wlNElwKFztaP0Xw4nB"       
+    request = urllib.request.urlopen("https://api.aerisapi.com/conditions/pws_aledo?format=json&plimit=1&filter=1min&client_id="+KEY+"&client_secret="+PKEY)
+    response = request.read()
+    json = json.loads(response)
+    if json['success']:
+        return json
+    else:
+        print("An error occurred: %s" % (json['error']['description']))
+        request.close()
+
 def run():
-    result = asyncio.run(main())
-    smallResult = result[0]
-    return smallResult
+    data = api()
+    return data
 
-def clearScreen():
-    print("\n" * 100)
+
     
-
-
-
+    
+    

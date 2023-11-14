@@ -1,5 +1,4 @@
 import api
-import api
 import PySimpleGUI as sg
 import time
 from datetime import datetime
@@ -12,7 +11,7 @@ def app():
     sg.theme('DarkAmber')   
     
     
-    layout = [  [sg.Text('The Current Temp is: ' + str(api.run()['tempf']))],
+    layout = [  [sg.Text('The Current Temp is: ' + str(api.run()['tempF']))],
                 [sg.Text('The Current Humidity is: ' + str(api.run()['humidity']))],
                 [sg.Button('Refresh'), sg.Button('Cancel')]]
 
@@ -62,42 +61,20 @@ def api_app():
     while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED or event == 'Cancel':
-        if event == sg.WIN_CLOSED or event == 'Cancel':
             break
         if event == 'Ok':
-            apikey = values[0]
-            f = open('api.txt', 'w+t')
-            f.write(apikey)
-            f.close()
-            print("Writing data to file")
-            break
+            return values
     window.close()
     
 def mac_app():
-    layout = [[sg.Text('MAC ADDRESS')],
-              [sg.Text('Mac Adress: '), sg.Input()],
+    layout = [[sg.Text('PKEY')],
+              [sg.Text('API Private Key: '), sg.Input()],
               [sg.Button('OK'), sg.Button('Cancel')]]
-    window = sg.Window('MAC', layout)
+    window = sg.Window('PKEY', layout)
     while True:
         event, value = window.read()
         if event == sg.WINDOW_CLOSED or event == "Cancel":
             break
         if event == 'OK':
-            macaddr = value[0]
-            f = open('mac.txt', 'w+t')
-            f.write(macaddr)
-            print("Writing data to file")
-            break
-    window.close()
-
-
-    
-    
-
-
-    
-    
-            
-            
-
-    
+            return value
+    window.close()    
