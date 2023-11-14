@@ -20,7 +20,10 @@ def api():
 
 def run():
     data = api()
-    return data
+    jsondump = json.dumps(data, sort_keys= True)
+    jsonloads = json.loads(jsondump)
+    data_return = jsonloads['response'][0]['periods'][0]
+    return data_return
 
 
     

@@ -7,12 +7,12 @@ import time
 from datetime import datetime
 import os
 
-def app():
+def app(json):
     sg.theme('DarkAmber')   
     
     
-    layout = [  [sg.Text('The Current Temp is: ' + str(api.run()['tempF']))],
-                [sg.Text('The Current Humidity is: ' + str(api.run()['humidity']))],
+    layout = [  [sg.Text('The Current Temp is: ' + str(json['tempF']))],
+                [sg.Text('The Current Humidity is: ' + str(json['humidity']))],
                 [sg.Button('Refresh'), sg.Button('Cancel')]]
 
     
@@ -23,6 +23,7 @@ def app():
         if event == sg.WIN_CLOSED or event == 'Cancel': 
             break
         if event == 'Refresh':
+            json = api.run()
             window.refresh()
             print('Refreshing...')
             
