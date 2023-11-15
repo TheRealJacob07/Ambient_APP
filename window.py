@@ -1,18 +1,15 @@
 import api
 import PySimpleGUI as sg
-import time
 from datetime import datetime
 import time
-from datetime import datetime
-import os
-import pathlib
-
+import sys
+path =sys.path[0]
 
 def app(json):
     sg.theme('DarkAmber')   
     
     
-    layout = [  [sg.Image(str(pathlib.Path.cwd()) + "\\Aeris_WxIcons_55x55\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
+    layout = [  [sg.Image(str(path) + "\\" + "Aeris_WxIcons_55x55" + "\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
                 [sg.Text('The Current Humidity is: ' + str(json['humidity']))],
                 [sg.Button('Refresh'), sg.Button('Cancel')]]
 

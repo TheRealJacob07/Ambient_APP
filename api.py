@@ -1,7 +1,5 @@
 import urllib
 import json
-import os
-import ast
 KEY = "kljubTcPNjsXE2jJ2DGuM"
 PKEY = "SSEr2T9ZbIUGgQENcK96G7wlNElwKFztaP0Xw4nB"
 def api():
