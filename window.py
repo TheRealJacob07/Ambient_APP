@@ -5,13 +5,14 @@ from datetime import datetime
 import time
 from datetime import datetime
 import os
+import pathlib
 
 
 def app(json):
     sg.theme('DarkAmber')   
     
     
-    layout = [  [sg.Image(os.getcwd() + "\\Aeris_WxIcons_55x55\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
+    layout = [  [sg.Image(str(pathlib.Path.cwd()) + "\\Aeris_WxIcons_55x55\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
                 [sg.Text('The Current Humidity is: ' + str(json['humidity']))],
                 [sg.Button('Refresh'), sg.Button('Cancel')]]
 
