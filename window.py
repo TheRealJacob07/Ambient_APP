@@ -11,7 +11,7 @@ def app(json):
     sg.theme('DarkAmber')   
     
     
-    layout = [  [sg.Image("Aeris_WxIcons_55x55/" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
+    layout = [  [sg.Image(os.getcwd() + "\\Aeris_WxIcons_55x55\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
                 [sg.Text('The Current Humidity is: ' + str(json['humidity']))],
                 [sg.Button('Refresh'), sg.Button('Cancel')]]
 
