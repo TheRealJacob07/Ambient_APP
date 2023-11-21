@@ -10,8 +10,8 @@ def app(json):
     
     
     layout = [  [sg.Image(str(path) + "\\" + "Aeris_WxIcons_55x55" + "\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
-                [sg.Text('The Current Humidity is: ' + str(json['humidity']))],
-                [sg.Button('Refresh'), sg.Button('Cancel')]]
+                [sg.Text("Updated: " + json['dateTimeISO']),sg.Text('The Current Humidity is: ' + str(json['humidity'])+ '%')],
+                [sg.Button('Refresh'), sg.Button('Cancel'), sg.Button('Radar')]]
 
     
     window = sg.Window('Ambient Weather API App', layout)
@@ -24,12 +24,23 @@ def app(json):
             print('Refreshing...')
             window.close()
             app(api.run())
+        if event == 'Radar':
+            radar()
             
         
 
     window.close()
     
-    
+def radar():
+    layout = [ [sg.Image(api.image_api(), key="img")]]
+    window = sg.Window('Radar', layout)
+    while True:
+        event, values = window.Read(timeout=100)
+        if event == sg.WINDOW_CLOSED:
+            break
+        elif event == sg.TIMEOUT_EVENT:
+            window.Element('img').UpdateAnimation('tmp.gif',  time_between_frames=50)
+            
 def api_app():
     layout = [  [sg.Text('Ambient API APP')],
                 [sg.Text('API Key: '), sg.InputText()],

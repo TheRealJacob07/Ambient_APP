@@ -15,6 +15,17 @@ def api():
     else:
         print("An error occurred: %s" % (json['error']['description']))
         request.close()
+        
+def image_api():
+    import imageio
+    import urllib.request
+    import cv2
+    url = "https://radar.weather.gov/ridge/standard/KFWS_loop.gif"
+    fname = "tmp.gif"
+    imdata = urllib.request.urlopen(url).read()
+    open(fname,"wb+").write(imdata)
+    gif = imageio.mimread(fname)
+    return 'tmp.gif'
 
 def run():
     data = api()
