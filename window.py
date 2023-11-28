@@ -35,11 +35,11 @@ def radar():
     layout = [ [sg.Image(api.image_api(), key="img")]]
     window = sg.Window('Radar', layout)
     while True:
-        event, values = window.Read(timeout=100)
+        event, values = window.Read(timeout=50)
         if event == sg.WINDOW_CLOSED:
             break
         elif event == sg.TIMEOUT_EVENT:
-            window.Element('img').UpdateAnimation('tmp.gif',  time_between_frames=50)
+            window.Element('img').UpdateAnimation('tmp.gif',  time_between_frames=100)
             
 def api_app():
     layout = [  [sg.Text('Ambient API APP')],
