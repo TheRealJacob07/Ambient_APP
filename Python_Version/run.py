@@ -1,8 +1,10 @@
 import api
 import window
-def run():
-    file = api.run()
+def run(location):
+    file = api.run(location)
     window.app(file)
     print("refreshed")
 
-run()
+print(api.forecast_run(2))
+run(str(window.location()))
+

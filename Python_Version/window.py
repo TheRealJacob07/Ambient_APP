@@ -5,16 +5,38 @@ import time
 import sys
 path =sys.path[0]
 
+def location():
+    sg.theme('DarkAmber')
+    
+    layout = [  [sg.Text('What Location Would You Like to Use?')],
+                [sg.InputText(), sg.Checkbox("PWS")],
+                [sg.Button('Done')]]
+    
+    window = sg.Window('Location', layout)
+    
+    while True:
+        event, value = window.read()
+        if event == sg.WIN_CLOSED:
+            break
+        if event == 'Done':
+            if value[0] == 'auto':
+                return ':auto'
+            elif event == 'PWS':
+                return "pws_" + value[0]
+            else:
+                return value[0]
+            break
+            
 def app(json):
     sg.theme('DarkAmber')   
     
     
-    layout = [  [sg.Image(str(path) + "\\" + "Aeris_WxIcons_55x55" + "\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']))],
-                [sg.Text("Updated: " + json['dateTimeISO']),sg.Text('The Current Humidity is: ' + str(json['humidity'])+ '%')],
+    layout = [  [sg.Image(str(path) + "\\" + "Aeris_WxIcons_55x55" + "\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']) + 'F'), sg.Text('The Current Humidity is: ' + str(json['humidity']) + '%')],
+                [sg.Text("Updated: " + json['dateTimeISO'])],
                 [sg.Button('Refresh'), sg.Button('Cancel'), sg.Button('Radar')]]
 
     
-    window = sg.Window('Ambient Weather API App', layout)
+    window = sg.Window('Ambient Weather API App', layout, auto_size_text= True)
     
     while True:
         event, value = window.read()
