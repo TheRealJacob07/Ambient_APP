@@ -5,33 +5,42 @@ import time
 import sys
 path =sys.path[0]
 
-def location():
+def location(newrow):
     sg.theme('DarkAmber')
     
     layout = [  [sg.Text('What Location Would You Like to Use?')],
-                [sg.InputText(), sg.Checkbox("PWS")],
+                [sg.InputText(), sg.Checkbox("PWS", key = 'p')],
                 [sg.Button('Done')]]
     
     window = sg.Window('Location', layout)
     
+    if newrow == 'n': 
+        window.add_row([sg.Text('ERROR!!!: No Input For Location Provided')])
     while True:
         event, value = window.read()
         if event == sg.WIN_CLOSED:
             break
         if event == 'Done':
             if value[0] == 'auto':
-                return ':auto'
-            elif event == 'PWS':
-                return "pws_" + value[0]
+                re = ':auto'
+            elif value['p'] == True:
+                re = "pws_" + str(value[0])
+            elif value[0] == '':
+                window.close()
+                location('n')
+                print('ERROR!!!: No Input For Location Provided')
             else:
-                return value[0]
-            break
+                re = value[0]
+        window.close()
+        return re    
+    
+        
             
 def app(json):
     sg.theme('DarkAmber')   
     
     
-    layout = [  [sg.Image(str(path) + "\\" + "Aeris_WxIcons_55x55" + "\\" + json['icon']),sg.Text('The Current Temp is: ' + str(json['tempF']) + 'F'), sg.Text('The Current Humidity is: ' + str(json['humidity']) + '%')],
+    layout = [  [sg.Image(str(path) + "\\" + "Aeris_WxIcons_55x55" + "\\" + json['icon'], size = (100,100)),sg.Text('The Current Temp is: ' + str(json['tempF']) + 'F'), sg.Text('The Current Humidity is: ' + str(json['humidity']) + '%')],
                 [sg.Text("Updated: " + json['dateTimeISO'])],
                 [sg.Button('Refresh'), sg.Button('Cancel'), sg.Button('Radar')]]
 
@@ -61,7 +70,7 @@ def radar():
         if event == sg.WINDOW_CLOSED:
             break
         elif event == sg.TIMEOUT_EVENT:
-            window.Element('img').UpdateAnimation('tmp.gif',  time_between_frames=100)
+            window.Element('img').UpdateAnimation('tmp.gif',  time_between_frames=20)
             
 def api_app():
     layout = [  [sg.Text('Ambient API APP')],
