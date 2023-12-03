@@ -29,23 +29,22 @@ def location(newrow):
                 window.close()
                 location('n')
                 print('ERROR!!!: No Input For Location Provided')
-            else:
-                re = value[0]
         window.close()
         return re    
     
         
             
-def app(json):
+def app(json, location):
     sg.theme('DarkAmber')   
     
     
     layout = [  [sg.Image(str(path) + "\\" + "Aeris_WxIcons_55x55" + "\\" + json['icon'], size = (100,100)),sg.Text('The Current Temp is: ' + str(json['tempF']) + 'F'), sg.Text('The Current Humidity is: ' + str(json['humidity']) + '%')],
+                [sg.Table(api.forecast_run(location), ['High', "Low", "Humidity", "Precip"], justification= 'center', display_row_numbers= True, alternating_row_color = 'black')],
                 [sg.Text("Updated: " + json['dateTimeISO'])],
                 [sg.Button('Refresh'), sg.Button('Cancel'), sg.Button('Radar')]]
 
     
-    window = sg.Window('Ambient Weather API App', layout, auto_size_text= True)
+    window = sg.Window('Ambient Weather API App', layout, auto_size_text= True, element_justification='c')
     
     while True:
         event, value = window.read()
@@ -66,12 +65,11 @@ def radar():
     layout = [ [sg.Image(api.image_api(), key="img")]]
     window = sg.Window('Radar', layout)
     while True:
-        event, values = window.Read(timeout=50)
+        event, values = window.Read(timeout=1000)
         if event == sg.WINDOW_CLOSED:
             break
         elif event == sg.TIMEOUT_EVENT:
-            window.Element('img').UpdateAnimation('tmp.gif',  time_between_frames=20)
-            
+            window.refresh()
 def api_app():
     layout = [  [sg.Text('Ambient API APP')],
                 [sg.Text('API Key: '), sg.InputText()],

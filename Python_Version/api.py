@@ -20,7 +20,7 @@ def image_api():
     import imageio
     import urllib.request
     import cv2
-    url = "https://radar.weather.gov/ridge/standard/KFWS_loop.gif"
+    url = "https://radar.weather.gov/ridge/standard/KFWS_0.gif"
     fname = "tmp.gif"
     imdata = urllib.request.urlopen(url).read()
     open(fname,"wb+").write(imdata)
@@ -34,12 +34,12 @@ def run(location):
     data_return = jsonloads['response'][0]['periods'][0]
     return data_return
 
-def forcast_api():
+def forcast_api(location):
     import urllib.request
     import json.decoder
     KEY = "kljubTcPNjsXE2jJ2DGuM"
     PKEY = "SSEr2T9ZbIUGgQENcK96G7wlNElwKFztaP0Xw4nB"       
-    request = urllib.request.urlopen("https://api.aerisapi.com/forecasts/pws_aledo?format=json&filter=day&limit=7&client_id=" + KEY + "&client_secret=" + PKEY)
+    request = urllib.request.urlopen("https://api.aerisapi.com/forecasts/" + location + "?format=json&filter=day&limit=7&client_id=" + KEY + "&client_secret=" + PKEY)
     response = request.read()
     json = json.loads(response)
     if json['success']:
@@ -48,12 +48,24 @@ def forcast_api():
         print("An error occurred: %s" % (json['error']['description']))
         request.close()
     
-def forecast_run(day):
-    data = forcast_api()
+def forecast_run(location):
+    data = forcast_api(location)
     jsondump = json.dumps(data, sort_keys= True)
     jsonloads = json.loads(jsondump)
-    data_return = jsonloads['response'][0]['periods'][day]
-    return data_return
+    data_return = jsonloads['response'][0]['periods']
+    maxTemps = []
+    lowTemps = []
+    maxHum = []
+    pre = []
+    for i in data_return:
+        maxTemps.append(str(i['maxTempF']) + 'F')
+        lowTemps.append(str(i['minTempF']) + 'F')
+        maxHum.append(str(i['humidity']) + '%')
+        pre.append(str(i['precipIN']) + "IN")
+    day = []
+    for i in range(len(maxTemps)):
+        day.append([maxTemps[i], lowTemps[i], maxHum[i], pre[i]])
+    return day
 
     
     
